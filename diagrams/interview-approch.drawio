@@ -1,0 +1,55 @@
+<mxfile>
+  <diagram id="GTeHWELrd8ZLFXcfXZGo" name="Page-1">
+    <mxGraphModel dx="772" dy="467" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="260" y="40" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="4" vertex="1">
+          <mxGeometry width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Interview Approch" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="4" vertex="1">
+          <mxGeometry x="20" y="15" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="" style="edgeStyle=none;html=1;" parent="1" source="5" target="13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="" style="edgeStyle=none;html=1;" parent="1" source="13" target="15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="285" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="" style="edgeStyle=none;html=1;" parent="1" source="15" target="17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="285" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="285" y="540" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="HIgh Level Design" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="307.5" y="270" width="75" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="Dsign Core Concepts&lt;span style=&quot;font-family: monospace; font-size: 0px; text-align: start; text-wrap-mode: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22HIgh%20Level%20Design%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22307.5%22%20y%3D%22270%22%20width%3D%2275%22%20height%3D%2240%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="307.5" y="410" width="75" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="Scale the Appication" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="307.5" y="550" width="75" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="285" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="24" vertex="1">
+          <mxGeometry width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="Outline useCases and assumptions and contraints" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="24" vertex="1">
+          <mxGeometry x="5" y="15" width="110" height="35" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
