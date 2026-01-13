@@ -13,7 +13,7 @@ It reduces loads on database store for same data requests.
 
 ## caching stretagies
 
-#### Cache-aside
+### Cache-aside
 
 The application is responsible for reading and writing from storage.  The cache does not interact with storage directly.  The application does the following:
 
