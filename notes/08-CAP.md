@@ -1,106 +1,187 @@
-# CAP thearom
+# CAP Theorem
 
-In a distributed computer system, you can only support two of the following guarantees:
+In a distributed computer system, you can only guarantee **two out of the following three properties** at the same time:
 
-Consistency - Every read receives the most recent write or an error
-Availability - Every request receives a response, without guarantee that it contains the most recent version of the information
-Partition Tolerance - The system continues to operate despite arbitrary partitioning due to network failures
-Networks aren't reliable, so you'll need to support partition tolerance. You'll need to make a software tradeoff between consistency and availability.
+- **Consistency (C)**  
+  Every read receives the most recent write or an error.
 
-CP - consistency and partition tolerance
-Waiting for a response from the partitioned node might result in a timeout error. CP is a good choice if your business needs require atomic reads and writes.
-mongodb and hbase
+- **Availability (A)**  
+  Every request receives a response, but it may not contain the most recent data.
 
-AP - availability and partition tolerance
-Responses return the most readily available version of the data available on any node, which might not be the latest. Writes might take some time to propagate when the partition is resolved.
-casandra and dynamodb
+- **Partition Tolerance (P)**  
+  The system continues to operate despite network failures that split the system into partitions.
 
-AP is a good choice if the business needs to allow for eventual consistency or when the system needs to continue working despite external errors.
+Since networks are unreliable, **Partition Tolerance is mandatory** in distributed systems.  
+This forces a tradeoff between **Consistency** and **Availability**.
 
-CA- traditional rdbms 
+---
 
+## CAP Combinations
 
-## example atm
+### CP – Consistency + Partition Tolerance
+- The system prioritizes consistent data.
+- Requests may fail or timeout during partitions.
+- Suitable when atomic reads and writes are required.
 
-atms are connected through nodes
+**Examples:** MongoDB, HBase
 
-if it chooses conssitency it will maintain consistent data across nodes.
-but if partition happen then use will not able to read and write
+---
 
-if it chooes availability then data become un cossistent if partition happen one atm node will update data but not other it can have data conssistency error
+### AP – Availability + Partition Tolerance
+- The system remains responsive even during partitions.
+- Data may be stale or inconsistent temporarily.
+- Writes propagate asynchronously and resolve later.
 
+**Examples:** Cassandra, DynamoDB
 
-## consistnccy models
+AP is suitable when **eventual consistency is acceptable** and availability is critical.
 
-read after write consistency 
+---
 
-user will only able to read after write happens by other node in partition system.
+### CA – Consistency + Availability
+- Works only when there are **no network partitions**.
+- Typical of traditional single-node or tightly coupled systems.
 
-### forms of consistency
+**Examples:** Traditional RDBMS (single-node setups)
 
-Linearizability
+---
 
-A system that supports linearizable consistency is one where operations appear instantaneous to the external client. It essentially behaves as if the system isn’t replicated but operates on a single dataset, but in reality, it’s distributed and replicated.
+## ATM Example (CAP Tradeoff)
 
-This is the type of consistency we’ve seen thus far, also called Read after Write Consistency.
+ATMs are connected through distributed nodes.
 
-Synchronous Replication, which we saw in Single Master Replication, ensures that the system follows Linearizability.
+- If the system prioritizes **Consistency**:
+  - All ATM nodes must agree on the account balance.
+  - During a network partition, withdrawals may fail.
+  - User cannot read or write until consistency is restored.
 
-This form of consistency ensures that operations from different clients need to be viewed in the same order by all clients.
+- If the system prioritizes **Availability**:
+  - ATMs continue operating during partitions.
+  - Different nodes may show different balances.
+  - This can lead to data inconsistency.
 
-Sequential Consistency
+---
 
-This essentially means that the Leader and the followers must execute the operations in the same order.
+## Consistency Models
 
-This is a case of Sequential Consistency since the order of writes is maintained across the leader and followers. It doesn’t matter if followers perform their writes much later than the leader; they just have to ensure that the order of operations is the same.
+### Read-After-Write Consistency
+A user can read updated data immediately after a write operation completes, even in a distributed system.
 
-Causal Consistency
+---
 
-When Event A directly influences the occurrence of Event B, we say that Event A caused Event B. This concept was explained in detail in Message Ordering.
+## Forms of Consistency
 
-Causal Consistency ensures that causally related events have the same operational order in all nodes of the system. For example, in a social media platform, it is important to show comments and their replies in the correct order. If the order is reversed, the conversation would not make sense. Here, the comment and its replies are causally related and must be maintained in order in all nodes.
+### Linearizability
+- Operations appear instantaneous to clients.
+- The system behaves like a single, non-replicated datastore.
+- Also known as **strong consistency** or **read-after-write consistency**.
 
-Eventual Consistency
+**Implementation:**  
+Synchronous replication (e.g., single-master replication).
 
-This is the weakest form of consistency where no ordering is maintained. It simply ensures that all operations are eventually propagated to all nodes in any order possible. This is useful for systems that do not need very strong consistency assumptions.
+---
 
-For example, when your friend creates a new post on Facebook, it is not crucial that you see it immediately. It is acceptable to see it 10 seconds later or even a bit later than that. Hence, the replication for post creation can use Eventual Consistency.
+### Sequential Consistency
+- All nodes see operations in the same order.
+- Timing does not matter; ordering does.
 
-# for big companies
+Leader and followers must execute operations in the same sequence, even if followers apply them later.
 
-Google
+---
 
-Strong-consistency choices:
-Spanner (CP-style): globally-distributed relational-like storage that provides external consistency ( ) using Paxos + TrueTime. Intended for services that need strong correctness across datacenters.
-Bigtable and Colossus can be configured for stronger consistency where required.
-Availability-focused choices:
-Many caching layers, search index replicas, and analytics are designed for high availability and low latency; they accept eventual consistency or stale reads.
-Why: Google builds infrastructure for enterprise workloads needing strict correctness (cloud databases, advertising auctions) and also for massive-scale, low-latency user services. They invest in distributed coordination (TrueTime) to expand the CP region without sacrificing global semantics.
+### Causal Consistency
+- Preserves cause-and-effect relationships.
+- If Event A causes Event B, all nodes observe A before B.
 
-Facebook
+**Example:**  
+Social media comments and replies must appear in logical order.
 
-Availability-first patterns:
-Social graph reads, feeds, likes, and timelines prioritize low latency and high availability. Systems use extensive caching (Memcached tiers), asynchronous replication, and eventually-consistent stores.
-TAO (Facebook’s graph data store) gives fast reads with relaxed consistency guarantees for many read paths and uses synchronous operations selectively.
-Stronger consistency where needed:
-User account operations, monetary flows, and certain write-critical flows use synchronous replication or transactional semantics.
-Why: User experience and responsiveness are paramount; occasional visible inconsistencies (e.g., slightly delayed likes) are acceptable compared to a slower or unavailable service.
+---
 
-Quora
+### Eventual Consistency
+- No strict ordering guarantees.
+- Updates propagate asynchronously.
+- All replicas eventually converge to the same state.
 
-Read-heavy content platform:
-Answers, questions, votes and feeds are optimized for availability and latency; caches and asynchronous replication are widely used.
-Edit conflicts and ownership changes require stronger consistency or conflict-resolution logic.
-Why: The typical Quora user expects fast browsing; slight delays in propagation (e.g., vote counts) are tolerable, while correctness of edits and authorship must be preserved.
-How these tradeoffs are implemented in practice
+**Example:**  
+Seeing a Facebook post a few seconds later is acceptable.
 
-Hybrid architectures:
-Use CP systems for metadata, transactions, and ownership; use AP systems for caching, feeds, and search indices.
-Employ multi-level consistency: strong on writes/critical reads, eventual for bulk reads.
-Use read-repair, conflict resolution, causal consistency, and version vectors to reduce user-visible anomalies while preserving availability.
-Operational controls:
-Graceful degradation (feature flags, degraded read modes) to maintain availability during partitions.
-Client-side fallbacks and retries to mask temporary inconsistencies.
-Business-driven choices:
-Critical financial/advertising systems (billing, bidding) trend toward consistency.
-Engagement and discovery systems (feeds, recommendations) prioritize availability and latency.
+This is the weakest but most scalable consistency model.
+
+---
+
+# CAP in Big Companies
+
+## Google
+
+### Strong-Consistency Systems
+- **Spanner (CP)**: Global relational database using Paxos + TrueTime.
+- Provides external consistency across data centers.
+- Used where strict correctness is required.
+
+### Availability-Focused Systems
+- Search indexes, caches, analytics systems.
+- Accept stale reads and eventual consistency.
+
+**Why:**  
+Google supports both enterprise correctness and massive low-latency consumer services by investing heavily in distributed coordination.
+
+---
+
+## Facebook
+
+### Availability-First Systems
+- Feeds, likes, timelines, and social graph reads.
+- Heavy use of caching (Memcached) and async replication.
+- Eventual consistency is acceptable.
+
+### Strong Consistency Where Needed
+- User accounts
+- Payments
+- Critical write operations
+
+**Why:**  
+User experience and responsiveness matter more than immediate consistency for most interactions.
+
+---
+
+## Quora
+
+### Read-Heavy Architecture
+- Questions, answers, votes, and feeds favor availability.
+- Caching and async replication are common.
+
+### Stronger Consistency for:
+- Edits
+- Ownership changes
+- Conflict resolution
+
+**Why:**  
+Fast browsing matters more than instant correctness of non-critical data.
+
+---
+
+## Practical CAP Tradeoffs
+
+### Hybrid Architectures
+- CP systems for metadata, ownership, and transactions
+- AP systems for caching, feeds, and search
+
+### Multi-Level Consistency
+- Strong consistency for writes and critical reads
+- Eventual consistency for bulk reads
+
+### Techniques Used
+- Read-repair
+- Conflict resolution
+- Causal consistency
+- Version vectors
+
+### Operational Strategies
+- Graceful degradation
+- Feature flags
+- Client-side retries and fallbacks
+
+### Business-Driven Decisions
+- Financial and billing systems → Consistency
+- Feeds, recommendations, discovery → Availability

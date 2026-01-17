@@ -9,7 +9,7 @@ there are two types:
 2.software: it uses software to distribute traffice.
           - nginx,haproxy,aws elb
 
-# Algorithams
+## Algorithams
 
 there are two types static and dynamic
 
@@ -31,7 +31,7 @@ it needs conssitenat hashing.
 
 the requests are send to least active server.
 
-# benfits
+### benfits
 
 1. High Availability
 2. scalbility
